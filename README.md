@@ -3,26 +3,22 @@
 **Curso:** Gobernanza en Seguridad de la Información  
 **Tipo:** Taller guiado  
 
-| Modalidad | Dedicación estimada | Puntaje | Entorno | Productos |
-|---|---|---|---|---|
-| Individual | 3 a 4 horas | 100 puntos | Kali Linux en máquina virtual | Documento de evidencias en un solo archivo PDF con norma IEEE, repositorio en GitHub y video corto en YouTube |
+| Modalidad | Dedicación estimada | Entorno | Resultado |
+|---|---|---|---|
+| Individual | 2 a 3 horas | Kali Linux en máquina virtual | CISO Assistant funcionando en `https://localhost:8443` |
 
 ## Contenido
 
-- [1. Objetivo y resultados de aprendizaje](#1-objetivo-y-resultados-de-aprendizaje)
+- [1. Objetivo](#1-objetivo)
 - [2. Conceptos básicos](#2-conceptos-básicos)
 - [3. Requisitos](#3-requisitos)
 - [4. Instalación paso a paso](#4-instalación-paso-a-paso)
 - [5. Solución de problemas](#5-solución-de-problemas)
-- [6. Evidencias requeridas](#6-evidencias-requeridas)
-- [7. Productos y condiciones de entrega](#7-productos-y-condiciones-de-entrega)
-- [8. Norma IEEE](#8-norma-ieee)
-- [9. Criterios de evaluación](#9-criterios-de-evaluación-100-puntos)
-- [10. Fuentes y recursos](#10-fuentes-y-recursos)
+- [6. Fuentes](#6-fuentes)
 
-## 1. Objetivo y resultados de aprendizaje
+## 1. Objetivo
 
-**Objetivo:** instalar y dejar en funcionamiento CISO Assistant Community Edition, una plataforma de gobierno, riesgo y cumplimiento (GRC) de código abierto, sobre Kali Linux mediante contenedores Docker, como base para las actividades de gobernanza del curso.
+Instalar y dejar en funcionamiento CISO Assistant Community Edition, una plataforma de gobierno, riesgo y cumplimiento (GRC) de código abierto, sobre Kali Linux mediante contenedores Docker.
 
 Al finalizar el taller, el estudiante estará en capacidad de:
 
@@ -30,7 +26,6 @@ Al finalizar el taller, el estudiante estará en capacidad de:
 2. Instalar Docker Engine y Docker Compose desde el repositorio oficial de Docker.
 3. Desplegar CISO Assistant con Docker Compose y verificar el estado de sus servicios.
 4. Diagnosticar y resolver problemas comunes de despliegue a partir de los registros de los contenedores.
-5. Documentar un procedimiento técnico con evidencias verificables, aplicando la norma IEEE.
 
 ## 2. Conceptos básicos
 
@@ -43,8 +38,6 @@ Al finalizar el taller, el estudiante estará en capacidad de:
 | Docker Compose | Herramienta que define y ejecuta en conjunto varios contenedores relacionados a partir de un archivo `docker-compose.yml`. |
 | Servicios de CISO Assistant | `backend` (lógica y base de datos), `frontend` (interfaz web), `caddy` (proxy con HTTPS en el puerto 8443), `huey` (tareas programadas) y `qdrant` (base de datos de apoyo). |
 | Healthcheck | Verificación periódica que hace Docker para saber si un servicio está listo. Los servicios `frontend`, `caddy` y `huey` solo arrancan cuando el `backend` está en estado `healthy`. |
-
-**Reglas de autoría:** todas las capturas deben mostrar el usuario de Kali o el nombre del estudiante y la fecha y hora del sistema. El usuario administrador de CISO Assistant debe crearse con el correo institucional del estudiante y registrar su nombre y apellido (paso 11).
 
 ## 3. Requisitos
 
@@ -67,11 +60,11 @@ Antes de iniciar Kali, en la configuración de la máquina virtual:
 3. **Disco:** verificar que el disco virtual tenga al menos 40 GB. Si la máquina virtual se descargó con un disco menor, ampliarlo antes de empezar.
 4. **Red:** usar el modo **NAT**, que permite a Kali salir a internet.
 
-**Alternativa si el equipo no tiene los recursos suficientes:** el estudiante debe informar al docente en la primera semana para trabajar en la instancia que el docente habilite para el curso, o solicitar la prueba gratuita en la nube que ofrece el fabricante en https://intuitem.com/trial. En ese caso, el documento de evidencias debe mostrar el acceso a la instancia asignada y omitir las figuras de instalación que no apliquen.
+**Alternativa si el equipo no tiene los recursos suficientes:** el estudiante debe informar al docente en la primera semana para trabajar en la instancia que el docente habilite para el curso, o solicitar la prueba gratuita en la nube que ofrece el fabricante en https://intuitem.com/trial. 
 
 ## 4. Instalación paso a paso
 
-**Producto de esta parte:** CISO Assistant funcionando en `https://localhost:8443` dentro de Kali Linux, con el usuario administrador del estudiante.
+**Resultado esperado:** CISO Assistant funcionando en `https://localhost:8443` dentro de Kali Linux, con un usuario administrador creado.
 
 **Tiempo estimado:** entre 40 y 90 minutos, según la conexión a internet.
 
@@ -226,8 +219,8 @@ sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin d
 
 3. Cuando el script lo solicite, crear el **usuario administrador**:
 
-   - **Correo electrónico:** el correo institucional del estudiante.
-   - **Contraseña:** una contraseña robusta, que el estudiante debe guardar.
+   - **Correo electrónico:** el correo con el que se iniciará sesión.
+   - **Contraseña:** una contraseña robusta, que se debe guardar.
 
 4. Verificar que los contenedores están en ejecución:
 
@@ -305,24 +298,18 @@ docker compose down
 | `df -h` | Ver el espacio libre en disco. |
 | `free -h` | Ver la memoria disponible. |
 
-### Paso 11. Completar el perfil del administrador
+### Paso 11. Verificación final
 
-Para que el nombre del estudiante aparezca en el menú lateral de la herramienta (requisito de autoría del taller):
+1. **Idioma:** en la parte inferior del menú lateral, junto al nombre del usuario, abrir el menú de tres puntos y seleccionar **Español** en la lista de idiomas.
+2. **Versión:** en ese mismo menú, la opción **Acerca de CISO Assistant** muestra la versión instalada.
+3. **Estado de los servicios:** en la terminal, verificar que todos los contenedores estén en ejecución y que el `backend` aparezca como `healthy`:
 
-1. En CISO Assistant, ir a **Organización > Usuarios**.
-2. Abrir el usuario administrador y editarlo.
-3. Registrar el nombre y el apellido del estudiante y guardar.
-4. Verificar que el nombre aparece en la parte inferior del menú lateral.
+   ```bash
+   cd ~/ciso-assistant-community
+   docker compose ps
+   ```
 
-Para cambiar el idioma de la interfaz: en la parte inferior del menú lateral, junto al nombre del usuario, abrir el menú de tres puntos y seleccionar **Español** en la lista de idiomas. En ese mismo menú, la opción **Acerca de CISO Assistant** muestra la versión instalada.
-
-### Paso 12. Registrar la evidencia de autoría
-
-Ejecutar en una sola ventana de la terminal el siguiente comando y tomar la captura correspondiente a la Fig. 9 de la sección 6:
-
-```bash
-whoami; hostname; date; head -n 2 /etc/os-release; docker --version; docker compose version; cd ~/ciso-assistant-community && docker compose ps
-```
+La instalación queda completa cuando se puede iniciar sesión en `https://localhost:8443/` y todos los servicios están en ejecución.
 
 ## 5. Solución de problemas
 
@@ -349,108 +336,9 @@ whoami; hostname; date; head -n 2 /etc/os-release; docker --version; docker comp
 | `Error: That email is already taken` al crear el administrador | El usuario ya existe | Cambiar su contraseña con `docker compose exec backend python manage.py changepassword correo@ejemplo.com`. |
 | Se olvidó la contraseña del administrador | Contraseña no registrada | Ejecutar `docker compose exec backend python manage.py changepassword correo@ejemplo.com` con el correo del administrador. |
 
-## 6. Evidencias requeridas
-
-El documento de evidencias debe incluir, como mínimo, las siguientes figuras numeradas según la norma IEEE:
-
-| Figura | Contenido de la captura | Paso |
-|---|---|---|
-| Fig. 1 | Configuración de la máquina virtual (memoria, procesadores, disco y red). | 3.1 |
-| Fig. 2 | Resultado de `cat /etc/os-release \| head -n 4` después de la actualización. | 1 |
-| Fig. 3 | Resultado de `sudo apt update` con la línea del repositorio `download.docker.com/linux/debian trixie`. | 4 |
-| Fig. 4 | Resultado de `docker --version`, `docker compose version` y `docker run --rm hello-world`. | 6 |
-| Fig. 5 | Resultado de `docker compose ps` con todos los servicios en ejecución y el `backend` en estado `healthy`. | 7 o 7A |
-| Fig. 6 | Mensaje `Superuser created successfully.` o solicitud del correo y la contraseña por parte del script. | 7 o 7A |
-| Fig. 7 | Firefox con la pantalla de inicio de CISO Assistant y el nombre del estudiante en el menú lateral. | 8 y 11 |
-| Fig. 8 | Ventana *Acerca de CISO Assistant* con la versión instalada. | 11 |
-| Fig. 9 | Resultado del comando de autoría del paso 12. | 12 |
-
-Si durante la instalación se presentó algún error, el documento debe incluir además la captura del error y de la solución aplicada.
-
-## 7. Productos y condiciones de entrega
-
-### 7.1 Documento de evidencias (un solo archivo PDF)
-
-Todo el trabajo se entrega en **un único documento PDF**, que debe permitir a otra persona repetir la instalación.
-
-- **Nombre del archivo:** `Taller1_Instalacion_CISO_Assistant_Apellido_Nombre.pdf`
-- **Extensión máxima:** 15 páginas, sin contar portada ni referencias.
-- **Estructura obligatoria:** ver [`plantillas/PLANTILLA_EVIDENCIAS.md`](plantillas/PLANTILLA_EVIDENCIAS.md).
-
-| Sección | Contenido |
-|---|---|
-| Portada | Nombre del estudiante, curso, título del taller, fecha, enlaces al repositorio de GitHub y al video. |
-| 1. Introducción | Qué es CISO Assistant, para qué sirve una plataforma GRC y por qué se usan contenedores, con citas IEEE. |
-| 2. Entorno | Sistema anfitrión, software de virtualización, versión de Kali y recursos asignados. |
-| 3. Procedimiento y evidencias | Explicación con palabras propias de cada etapa de la instalación, con las figuras Fig. 1 a Fig. 9. |
-| 4. Problemas y soluciones | Tabla con cada error encontrado, su causa y la solución aplicada (TABLA I). Si no hubo errores, explicar qué verificaciones se hicieron. |
-| 5. Conclusiones | Aprendizajes y recomendaciones. |
-| Referencias | Lista en formato IEEE. |
-
-### 7.2 Repositorio en GitHub
-
-Repositorio **público** llamado `gobernanza-si-taller1-instalacion-apellido`, con esta estructura:
-
-```text
-gobernanza-si-taller1-instalacion-apellido/
-├── README.md                                              (basado en plantillas/README_ESTUDIANTE.md)
-└── Taller1_Instalacion_CISO_Assistant_Apellido_Nombre.pdf (documento único de evidencias)
-```
-
-No deben subirse contraseñas, archivos de configuración ni la carpeta `ciso-assistant-community`.
-
-### 7.3 Video en YouTube
-
-- Duración: entre 3 y 5 minutos.
-- Debe mostrar en vivo la terminal con `docker compose ps` y el ingreso a la instancia propia de CISO Assistant con el nombre del estudiante visible.
-- Visibilidad: **No listado** o **Público**.
-- Título: `Taller 1 Instalacion CISO Assistant - Apellido Nombre`.
-
-### 7.4 Entrega en Blackboard
-
-1. Adjuntar el documento PDF.
-2. Escribir en el cuadro de texto el enlace al repositorio de GitHub y el enlace al video.
-
-## 8. Norma IEEE
-
-- **Citas en el texto:** numéricas entre corchetes, en orden de aparición: [1], [2].
-- **Lista de referencias:** al final, con el título **Referencias**, numerada en orden de aparición. Mínimo **cuatro (4) referencias**, que incluyan la documentación de CISO Assistant y la documentación de Kali Linux o de Docker.
-- **Figuras:** "Fig. 1", "Fig. 2", con el título **debajo** de la imagen y mencionadas en el texto antes de aparecer.
-- **Tablas:** "TABLA I", "TABLA II", con el título **encima** de la tabla.
-
-**Ejemplos de referencias:**
-
-[1] intuitem, "CISO Assistant Community Edition," versión X.Y.Z, software de código abierto, licencia AGPLv3, 2026. [En línea]. Disponible: https://github.com/intuitem/ciso-assistant-community
-
-[2] intuitem, "CISO Assistant documentation," 2026. [En línea]. Disponible: https://intuitem.gitbook.io/ciso-assistant
-
-[3] Kali Linux, "Installing Docker on Kali Linux," Kali Linux Documentation, 2025. [En línea]. Disponible: https://www.kali.org/docs/containers/installing-docker-on-kali/
-
-[4] Docker Inc., "Install Docker Engine on Debian," Docker Docs, 2026. [En línea]. Disponible: https://docs.docker.com/engine/install/debian/
-
-## 9. Criterios de evaluación (100 puntos)
-
-| Criterio | Puntos | Nivel alto | Nivel medio | Nivel bajo |
-|---|:---:|---|---|---|
-| Preparación del entorno | 10 | Máquina virtual con los recursos recomendados y Kali actualizado, con evidencia (Fig. 1 y 2) (9-10) | Recursos por debajo de lo recomendado sin justificación (5-8) | Sin evidencia (0-4) |
-| Instalación de Docker | 20 | Repositorio oficial configurado, Docker 27.0 o superior y Compose v2 verificados con `hello-world` (Fig. 3 y 4) (17-20) | Instalación funcional con evidencias incompletas (10-16) | Sin evidencia de Docker funcionando (0-9) |
-| Despliegue de CISO Assistant | 25 | Todos los servicios en ejecución y `backend` en estado `healthy`; administrador creado; ingreso por HTTPS (Fig. 5, 6 y 7) (22-25) | Herramienta funcional con evidencias incompletas (13-21) | Herramienta sin desplegar (0-12) |
-| Configuración y autoría | 10 | Perfil con nombre del estudiante, idioma configurado, versión registrada y comando de autoría (Fig. 8 y 9) (9-10) | Faltan elementos de autoría (5-8) | Sin evidencias de autoría (0-4) |
-| Problemas y soluciones | 10 | Tabla de problemas con causa y solución explicadas a partir de los registros (9-10) | Problemas descritos sin causa o sin solución (5-8) | Ausente (0-4) |
-| Norma IEEE | 15 | Citas, referencias, figuras y tablas correctas según IEEE, con cuatro o más referencias (13-15) | Errores menores de formato (8-12) | Formato distinto a IEEE (0-7) |
-| Repositorio en GitHub | 5 | Público, con README y PDF (5) | Incompleto (3-4) | Inaccesible (0-2) |
-| Video en YouTube | 5 | Muestra en vivo la instancia propia funcionando (5) | Incompleto (3-4) | Inaccesible (0-2) |
-
-## 10. Fuentes y recursos
+## 6. Fuentes
 
 - Kali Linux, "Installing Docker on Kali Linux": https://www.kali.org/docs/containers/installing-docker-on-kali/
 - Docker, "Install Docker Engine on Debian": https://docs.docker.com/engine/install/debian/
 - intuitem, repositorio de CISO Assistant: https://github.com/intuitem/ciso-assistant-community
 - intuitem, documentación de CISO Assistant: https://intuitem.gitbook.io/ciso-assistant
-
-## Archivos del repositorio
-
-| Archivo | Uso |
-|---|---|
-| [`plantillas/PLANTILLA_EVIDENCIAS.md`](plantillas/PLANTILLA_EVIDENCIAS.md) | Estructura del documento PDF de evidencias. |
-| [`plantillas/README_ESTUDIANTE.md`](plantillas/README_ESTUDIANTE.md) | Modelo del README del repositorio del estudiante. |
